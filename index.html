@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: center;
             background: linear-gradient(180deg, #FFCC99 0%, #FFE4D6 100%);
-            padding: 20px;
+            padding: 20px 20px 30px 20px;
         }
 
         .container {
@@ -40,7 +40,7 @@
         /* Header Section */
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             animation: slideDown 0.5s ease-out;
         }
 
@@ -59,7 +59,7 @@
             font-size: 28px;
             font-weight: 700;
             color: #333333;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .story-text {
@@ -67,20 +67,20 @@
             color: #555555;
             line-height: 1.6;
             text-align: center;
-            padding: 20px;
+            padding: 18px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             animation: slideDown 0.5s ease-out 0.2s both;
         }
 
-        /* Can Container with your image */
+        /* Can Container - КОМПАКТНЕЕ И ВЫШЕ */
         .can-container {
             position: relative;
-            width: 320px;
-            height: 450px;
-            margin: 30px 0;
+            width: 100%;
+            height: 350px;
+            margin: 10px 0 15px 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -104,13 +104,14 @@
             }
         }
 
-        /* Your can image */
+        /* Your can image - УВЕЛИЧЕНА В 1.2 РАЗА */
         .can-image {
             width: 100%;
-            max-width: 350px;
+            max-width: 420px; /* Было 350px, теперь 350 * 1.2 = 420px */
             height: auto;
             filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.3));
             transition: transform 0.3s ease;
+            object-fit: contain;
         }
 
         /* Idle floating animation */
@@ -219,10 +220,10 @@
             }
         }
 
-        /* Bottom Section */
+        /* Bottom Section - КОМПАКТНЕЕ */
         .bottom-section {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 10px;
             animation: slideUp 0.5s ease-out 0.6s both;
         }
 
@@ -240,22 +241,22 @@
         .help-text {
             font-size: 15px;
             color: #333333;
-            line-height: 1.6;
-            margin-bottom: 8px;
+            line-height: 1.5;
+            margin-bottom: 6px;
             padding: 0 20px;
         }
 
         .tap-hint {
             font-size: 13px;
             color: #888888;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-style: italic;
         }
 
         .cta-button {
             width: 85%;
             max-width: 320px;
-            padding: 20px 40px;
+            padding: 18px 40px;
             background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
             color: white;
             border: none;
@@ -300,24 +301,71 @@
             transform: scale(0.97);
         }
 
-        /* Responsive */
+        /* Responsive - ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ */
         @media (max-width: 480px) {
+            body {
+                padding: 15px 15px 25px 15px;
+            }
+
             .header h1 {
                 font-size: 24px;
+                margin-bottom: 10px;
             }
 
             .story-text {
                 font-size: 14px;
                 padding: 15px;
+                margin-bottom: 15px;
             }
 
             .can-container {
-                width: 280px;
-                height: 380px;
+                height: 300px;
+                margin: 8px 0 12px 0;
             }
 
             .can-image {
-                max-width: 280px;
+                max-width: 360px; /* 300px * 1.2 = 360px для мобильных */
+            }
+
+            .bottom-section {
+                margin-top: 8px;
+            }
+
+            .help-text {
+                font-size: 14px;
+                line-height: 1.4;
+                margin-bottom: 5px;
+            }
+
+            .tap-hint {
+                font-size: 12px;
+                margin-bottom: 12px;
+            }
+
+            .cta-button {
+                width: 90%;
+                padding: 16px 32px;
+                font-size: 17px;
+            }
+        }
+
+        /* Для очень маленьких экранов */
+        @media (max-width: 360px) {
+            .can-container {
+                height: 280px;
+            }
+
+            .can-image {
+                max-width: 320px;
+            }
+
+            .story-text {
+                font-size: 13px;
+                padding: 12px;
+            }
+
+            .help-text {
+                font-size: 13px;
             }
         }
     </style>
@@ -338,7 +386,7 @@
         <div class="can-container">
             <img 
                 src="can.png" 
-                alt="Koala Free Can" 
+                alt="Банка с коалой Koala Free" 
                 class="can-image idle" 
                 id="canImage"
             />
@@ -437,8 +485,6 @@
         // Check if image loaded successfully
         canImage.addEventListener('error', function() {
             console.error('Image failed to load');
-            this.alt = '🐨 Koala in can';
-            this.style.fontSize = '100px';
         });
 
         canImage.addEventListener('load', function() {
