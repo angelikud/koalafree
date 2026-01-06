@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koala Free - Привет, я коала!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', 'Sofia Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #FFCC99 0%, #FFE4D6 100%);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 16px;
+        }
+
+        .story-text {
+            font-size: 15px;
+            color: #555555;
+            line-height: 1.6;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            animation: slideDown 0.5s ease-out 0.2s both;
+        }
+
+        /* Can Container with your image */
+        .can-container {
+            position: relative;
+            width: 320px;
+            height: 450px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: dropBounce 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes dropBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+            60% {
+                transform: translateY(10px);
+            }
+            80% {
+                transform: translateY(-5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Your can image */
+        .can-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        /* Idle floating animation */
+        .can-image.idle {
+            animation: canFloat 3.5s ease-in-out infinite;
+        }
+
+        @keyframes canFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-12px) rotate(1deg);
+            }
+        }
+
+        /* Sad animation when tapped */
+        .can-image.sad {
+            animation: canSad 1s ease-in-out;
+        }
+
+        @keyframes canSad {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            15% {
+                transform: scale(0.95) translateY(8px) rotate(-2deg);
+            }
+            30% {
+                transform: scale(0.98) translateY(4px) rotate(1deg);
+            }
+            50% {
+                transform: scale(0.96) translateY(6px) rotate(-1deg);
+            }
+            70% {
+                transform: scale(0.97) translateY(3px) rotate(0.5deg);
+            }
+        }
+
+        /* Happy animation (bonus) */
+        .can-image.happy {
+            animation: canHappy 0.7s ease-in-out;
+        }
+
+        @keyframes canHappy {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            20% {
+                transform: scale(1.05) rotate(-5deg) translateY(-8px);
+            }
+            40% {
+                transform: scale(1.08) rotate(5deg) translateY(-12px);
+            }
+            60% {
+                transform: scale(1.05) rotate(-3deg) translateY(-8px);
+            }
+            80% {
+                transform: scale(1.03) rotate(2deg) translateY(-4px);
+            }
+        }
+
+        /* Shake animation for more emphasis */
+        .can-image.shake {
+            animation: canShake 0.5s ease-in-out;
+        }
+
+        @keyframes canShake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px) rotate(-2deg); }
+            20%, 40%, 60%, 80% { transform: translateX(5px) rotate(2deg); }
+        }
+
+        /* Hover effect */
+        .can-image:hover {
+            transform: scale(1.03) translateY(-5px);
+            filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.4));
+        }
+
+        /* Sugar confetti particles */
+        .sugar-confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .sugar-particle {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: fallSugar 2.5s ease-in forwards;
+        }
+
+        @keyframes fallSugar {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Bottom Section */
+        .bottom-section {
+            text-align: center;
+            margin-top: 20px;
+            animation: slideUp 0.5s ease-out 0.6s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .help-text {
+            font-size: 15px;
+            color: #333333;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding: 0 20px;
+        }
+
+        .tap-hint {
+            font-size: 13px;
+            color: #888888;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .cta-button {
+            width: 85%;
+            max-width: 320px;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 20px rgba(255, 107, 107, 0.4),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.5);
+        }
+
+        .cta-button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:active {
+            transform: scale(0.97);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .story-text {
+                font-size: 14px;
+                padding: 15px;
+            }
+
+            .can-container {
+                width: 280px;
+                height: 380px;
+            }
+
+            .can-image {
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Привет, я коала! 🐨</h1>
+        </div>
+
+        <!-- Story Text -->
+        <div class="story-text">
+            Мне очень нужна твоя помощь. Дело в том, что когда ты ешь сахар, я толстею и у меня становится мало энергии. Когда-то я была быстрой и подвижной, но из-за твоего увлечения баночками с сахаром я застряла в этой банке.
+        </div>
+
+        <!-- Can Image (YOUR IMAGE) -->
+        <div class="can-container">
+            <img 
+                src="https://www.genspark.ai/api/files/s/N22FJipb" 
+                alt="Koala Free Can" 
+                class="can-image idle" 
+                id="canImage"
+            />
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+            <p class="help-text">
+                Помоги мне выбраться из банки. Если ты не будешь употреблять сахар в течение 30 дней, я похудею и окажусь на свободе.
+            </p>
+            <p class="tap-hint">Тапни если понял</p>
+
+            <button class="cta-button" onclick="tapKoala()">
+                Тапнуть коалу
+            </button>
+        </div>
+    </div>
+
+    <!-- Sugar Confetti Container -->
+    <div class="sugar-confetti" id="sugarConfetti"></div>
+
+    <script>
+        // Tap Koala Function with can animation
+        function tapKoala() {
+            const canImage = document.getElementById('canImage');
+            
+            // Remove all animation classes
+            canImage.classList.remove('idle', 'happy', 'shake');
+            
+            // Add sad animation
+            canImage.classList.add('sad');
+
+            // Haptic feedback on mobile
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 30, 50]);
+            }
+
+            // Create sugar confetti
+            createSugarConfetti();
+
+            // Return to idle after sad animation
+            setTimeout(() => {
+                canImage.classList.remove('sad');
+                canImage.classList.add('idle');
+            }, 1000);
+
+            // Navigate to next screen after animation
+            setTimeout(() => {
+                alert('🐨 Спасибо за понимание! Теперь начнём наше путешествие к свободе...');
+            }, 2500);
+        }
+
+        // Create falling sugar confetti
+        function createSugarConfetti() {
+            const container = document.getElementById('sugarConfetti');
+            const sugarSymbols = ['🍬', '🍭', '🧁', '🍩', '🍪', '🎂', '⚪', '◯', '○', '▫️'];
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'sugar-particle';
+                particle.textContent = sugarSymbols[Math.floor(Math.random() * sugarSymbols.length)];
+                
+                particle.style.left = Math.random() * 100 + '%';
+                const size = 15 + Math.random() * 20;
+                particle.style.fontSize = size + 'px';
+                particle.style.animationDelay = Math.random() * 0.5 + 's';
+                particle.style.animationDuration = 2 + Math.random() * 1.5 + 's';
+
+                container.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 4000);
+            }
+        }
+
+        // Optional: Click on can directly for happy animation
+        const canImage = document.getElementById('canImage');
+        canImage.addEventListener('click', (e) => {
+            if (!canImage.classList.contains('sad')) {
+                canImage.classList.remove('idle');
+                canImage.classList.add('happy');
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate(30);
+                }
+                
+                setTimeout(() => {
+                    canImage.classList.remove('happy');
+                    canImage.classList.add('idle');
+                }, 700);
+            }
+        });
+
+        // Check if image loaded successfully
+        canImage.addEventListener('error', function() {
+            console.error('Image failed to load');
+            this.alt = '🐨 Koala in can';
+            this.style.fontSize = '100px';
+        });
+
+        canImage.addEventListener('load', function() {
+            console.log('Image loaded successfully!');
+        });
+    </script>
+</body>
+</html>
